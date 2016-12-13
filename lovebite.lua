@@ -43,6 +43,7 @@ end
 
 function lovebite:startDraw()
     lg.setCanvas(self.canvas)
+    lg.clear()
 end
 
 function lovebite:endDraw()
