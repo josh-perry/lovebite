@@ -25,13 +25,16 @@ function love.draw()
 end
 ```
 
-To change the scale after setup, just call the setScale function and the window/canvas will resize properly.
+## Automatically scaling to window size
+You can also specify a target window size and have lovebite scale up the internal resolution to match by setting the scale to zero and setting window size:
+
 ```lua
-function love.keypressed(key, isrepeat)
-    if key == "z" then
-        lovebite:setScale(lovebite.scale - 1)
-    elseif key == "x" then
-        lovebite:setScale(lovebite.scale + 1)
-    end
-end
+lovebite.setMode(160, 144, 0, {}, 1280, 720)
+```
+
+This will create a 1280x720 window with a 160x144 game scaled to fit it (with pillarboxing).
+
+### With borderless fullscreen
+```lua
+lovebite.setMode(160, 144, 0, {fullscreen=true, fullscreentype="desktop"})
 ```

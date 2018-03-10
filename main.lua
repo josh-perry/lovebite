@@ -8,13 +8,7 @@ local sprite = lg.newImage("sprite.png")
 function love.load()
     lw.setTitle("lovebite Example")
 
-    local flags = {
-        fullscreen = false,
-        fullscreentype = "desktop",
-        borderless = true
-    }
-
-    lovebite:setMode(160, 144, 1, flags)
+    lovebite:setMode(160, 144, 0, {fullscreen = true})
 end
 
 function love.draw()
@@ -30,8 +24,8 @@ end
 
 function love.keypressed(key, isrepeat)
     if key == "z" then
-        lovebite:setScale(lovebite.scale - 1)
+        lovebite:setMode(160, 144, lovebite.scale - 1)
     elseif key == "x" then
-        lovebite:setScale(lovebite.scale + 1)
+        lovebite:setMode(160, 144, lovebite.scale + 1)
     end
 end

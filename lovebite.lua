@@ -3,10 +3,25 @@ local lw = love.window
 
 local lovebite = {}
 
-function lovebite:setMode(width, height, scale, flags)
+function lovebite:setMode(width, height, scale, flags, windowWidth, windowHeight)
     self.width = width
     self.height = height
     self.scale = scale
+
+    if self.scale < 1 then self.scale = 0 end
+    if not flags then flags = {} end
+
+    if not windowWidth and not windowHeight and self.scale == 0 then
+        if not flags.fullscreen then
+            if not flags.fullscreenType or flags.fullscreentype ~= "desktop" then
+                error("You can't autoscale without a window size set!")
+            end
+        end
+    end
+
+    self.windowWidth = windowWidth or self.width*self.scale
+    self.windowHeight = windowHeight or self.height*self.scale
+
     self.scaleMode = "nearest"
     self.flags = flags
 
@@ -14,31 +29,22 @@ function lovebite:setMode(width, height, scale, flags)
 end
 
 function lovebite:reinitializeWindow()
-    local w, h = self.width, self.height
-    local s = self.scale
+    -- Change window size
+    lw.setMode(self.windowWidth, self.windowHeight, self.flags)
 
-    local actualW = w * self.scale
-    local actualH = h * self.scale
+    self.windowWidth, self.windowHeight = lg.getDimensions()
+
+    -- Auto scaling
+    if self.scale == 0 then
+        self.scale = self.windowHeight / self.height
+    end
+
+    local actualW = self.width * self.scale
+    local actualH = self.height * self.scale
 
     -- Create canvas
     self.canvas = lg.newCanvas(actualW, actualH)
     self.canvas:setFilter(self.scaleMode, self.scaleMode)
-
-    -- Change window size
-    lw.setMode(actualW, actualH, self.flags)
-end
-
-function lovebite:setScale(scale)
-    if scale == self.scale then
-        return
-    end
-
-    if scale < 1 then
-        scale = 1
-    end
-
-    self.scale = scale
-    self:reinitializeWindow()
 end
 
 function lovebite:startDraw()
@@ -49,7 +55,9 @@ end
 function lovebite:endDraw()
     lg.setColor(255, 255, 255)
     lg.setCanvas()
-    lg.draw(self.canvas, 0, 0, 0, self.scale, self.scale)
+
+    -- Draw centered
+    lg.draw(self.canvas, lg.getWidth()/2, lg.getHeight()/2, 0, self.scale, self.scale, self.width/2, self.height/2)
 end
 
 return lovebite
