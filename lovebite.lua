@@ -7,7 +7,7 @@ function lovebite:setMode(width, height, scale, flags)
     self.width = width
     self.height = height
     self.scale = scale
-    self.scale_mode = "nearest"
+    self.scaleMode = "nearest"
     self.flags = flags
 
     self:reinitializeWindow()
@@ -22,7 +22,7 @@ function lovebite:reinitializeWindow()
 
     -- Create canvas
     self.canvas = lg.newCanvas(actualW, actualH)
-    self.canvas:setFilter(self.scale_mode, self.scale_mode)
+    self.canvas:setFilter(self.scaleMode, self.scaleMode)
 
     -- Change window size
     lw.setMode(actualW, actualH, self.flags)
