@@ -47,8 +47,12 @@ function lovebite:reinitializeWindow()
     self.canvas:setFilter(self.scaleMode, self.scaleMode)
 end
 
-function lovebite:startDraw()
+function lovebite:setCanvas()
     lg.setCanvas(self.canvas)
+end
+
+function lovebite:startDraw()
+    self:setCanvas()
     lg.clear()
 end
 
