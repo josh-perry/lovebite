@@ -3,27 +3,27 @@ local lw = love.window
 
 local lovebite = {}
 
-function lovebite:setMode(width, height, scale, flags, windowWidth, windowHeight)
-    self.width = width
-    self.height = height
-    self.scale = scale
+function lovebite:setMode(config)
+    self.width = config.width
+    self.height = config.height
+    self.scale = config.scale or 0
 
     if self.scale < 1 then self.scale = 0 end
-    if not flags then flags = {} end
+    if not config.flags then config.flags = {} end
 
-    if not windowWidth and not windowHeight and self.scale == 0 then
-        if not flags.fullscreen then
-            if not flags.fullscreenType or flags.fullscreentype ~= "desktop" then
+    if not config.windowWidth and not config.windowHeight and self.scale == 0 then
+        if not config.flags.fullscreen then
+            if not config.flags.fullscreenType or config.flags.fullscreentype ~= "desktop" then
                 error("You can't autoscale without a window size set!")
             end
         end
     end
 
-    self.windowWidth = windowWidth or self.width*self.scale
-    self.windowHeight = windowHeight or self.height*self.scale
+    self.windowWidth = config.windowWidth or self.width*self.scale
+    self.windowHeight = config.windowHeight or self.height*self.scale
 
     self.scaleMode = "nearest"
-    self.flags = flags
+    self.flags = config.flags
 
     self:reinitializeWindow()
 end
