@@ -39,11 +39,8 @@ function lovebite:reinitializeWindow()
         self.scale = self.windowHeight / self.height
     end
 
-    local actualW = self.width * self.scale
-    local actualH = self.height * self.scale
-
     -- Create canvas
-    self.canvas = lg.newCanvas(actualW, actualH)
+    self.canvas = lg.newCanvas(self.width, self.height)
     self.canvas:setFilter(self.scaleMode, self.scaleMode)
 end
 
